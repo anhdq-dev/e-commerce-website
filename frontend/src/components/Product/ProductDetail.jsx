@@ -3,6 +3,7 @@ import { toast } from "sonner";
 import ProductGrid from "./ProductGrid";
 
 const selectedProduct = {
+  _id: 1,
   name: "Stylish Jacket",
   price: 120,
   originalPrice: 150,
@@ -22,53 +23,36 @@ const selectedProduct = {
     },
   ],
 };
+
 const similarProducts = [
   {
-    name: "Casual Jacket",
-    price: 100,
-    originalPrice: 130,
-    description: "A casual and stylish jacket for everyday wear.",
-    brand: "UrbanStyle",
-    material: "Cotton",
-    sizes: ["S", "M", "L", "XL"],
-    colors: ["Blue", "Gray"],
-    images: [
-      {
-        url: "https://picsum.photos/500/500?random=3",
-        altText: "Casual Jacket 1",
-      },
-      {
-        url: "https://picsum.photos/500/500?random=4",
-        altText: "Casual Jacket 2",
-      },
-    ],
-  },
-  {
-    name: "Premium Leather Jacket",
+    _id: 3,
+    name: "Leather Biker Jacket",
     price: 180,
     originalPrice: 220,
-    description: "High-quality leather jacket with a modern fit.",
-    brand: "EliteWear",
+    description: "A stylish biker jacket made from premium leather.",
+    brand: "MotoStyle",
     material: "Genuine Leather",
     sizes: ["M", "L", "XL"],
     colors: ["Black", "Brown"],
     images: [
       {
         url: "https://picsum.photos/500/500?random=5",
-        altText: "Premium Leather Jacket 1",
+        altText: "Leather Biker Jacket 1",
       },
       {
         url: "https://picsum.photos/500/500?random=6",
-        altText: "Premium Leather Jacket 2",
+        altText: "Leather Biker Jacket 2",
       },
     ],
   },
   {
+    _id: 4,
     name: "Winter Puffer Jacket",
     price: 130,
     originalPrice: 160,
-    description: "Warm and cozy puffer jacket for winter season.",
-    brand: "ColdWear",
+    description: "Warm and stylish puffer jacket for winter season.",
+    brand: "ColdGear",
     material: "Polyester",
     sizes: ["S", "M", "L"],
     colors: ["Navy", "White"],
@@ -84,46 +68,70 @@ const similarProducts = [
     ],
   },
   {
-    name: "Slim Fit Denim Jacket",
-    price: 90,
-    originalPrice: 120,
-    description: "A trendy slim-fit denim jacket for a modern look.",
-    brand: "DenimCo",
-    material: "Denim",
-    sizes: ["M", "L", "XL"],
-    colors: ["Blue", "Black"],
-    images: [
-      {
-        url: "https://picsum.photos/500/500?random=9",
-        altText: "Slim Fit Denim Jacket 1",
-      },
-      {
-        url: "https://picsum.photos/500/500?random=10",
-        altText: "Slim Fit Denim Jacket 2",
-      },
-    ],
-  },
-  {
+    _id: 5,
     name: "Classic Bomber Jacket",
     price: 110,
     originalPrice: 140,
-    description: "A stylish bomber jacket for any casual occasion.",
-    brand: "AirStyle",
+    description: "A timeless bomber jacket for a casual style.",
+    brand: "AirTrend",
     material: "Nylon",
     sizes: ["S", "M", "L", "XL"],
     colors: ["Olive", "Black"],
     images: [
       {
-        url: "https://picsum.photos/500/500?random=11",
+        url: "https://picsum.photos/500/500?random=9",
         altText: "Classic Bomber Jacket 1",
       },
       {
-        url: "https://picsum.photos/500/500?random=12",
+        url: "https://picsum.photos/500/500?random=10",
         altText: "Classic Bomber Jacket 2",
       },
     ],
   },
   {
+    _id: 6,
+    name: "Hooded Parka",
+    price: 190,
+    originalPrice: 240,
+    description: "A warm and stylish hooded parka for winter adventures.",
+    brand: "WinterGear",
+    material: "Wool Blend",
+    sizes: ["M", "L", "XL"],
+    colors: ["Gray", "Dark Green"],
+    images: [
+      {
+        url: "https://picsum.photos/500/500?random=11",
+        altText: "Hooded Parka 1",
+      },
+      {
+        url: "https://picsum.photos/500/500?random=12",
+        altText: "Hooded Parka 2",
+      },
+    ],
+  },
+  {
+    _id: 7,
+    name: "Windbreaker Jacket",
+    price: 85,
+    originalPrice: 110,
+    description: "Lightweight windbreaker for outdoor activities.",
+    brand: "SportWear",
+    material: "Polyester",
+    sizes: ["S", "M", "L", "XL"],
+    colors: ["Red", "Green"],
+    images: [
+      {
+        url: "https://picsum.photos/500/500?random=13",
+        altText: "Windbreaker Jacket 1",
+      },
+      {
+        url: "https://picsum.photos/500/500?random=14",
+        altText: "Windbreaker Jacket 2",
+      },
+    ],
+  },
+  {
+    _id: 8,
     name: "Vintage Leather Jacket",
     price: 160,
     originalPrice: 200,
@@ -134,18 +142,63 @@ const similarProducts = [
     colors: ["Brown", "Black"],
     images: [
       {
-        url: "https://picsum.photos/500/500?random=13",
+        url: "https://picsum.photos/500/500?random=15",
         altText: "Vintage Leather Jacket 1",
       },
       {
-        url: "https://picsum.photos/500/500?random=14",
+        url: "https://picsum.photos/500/500?random=16",
         altText: "Vintage Leather Jacket 2",
       },
     ],
   },
+  {
+    _id: 9,
+    name: "Fleece Zip-Up Jacket",
+    price: 95,
+    originalPrice: 120,
+    description: "A cozy fleece zip-up jacket for everyday comfort.",
+    brand: "CozyWear",
+    material: "Fleece",
+    sizes: ["S", "M", "L", "XL"],
+    colors: ["Beige", "Black"],
+    images: [
+      {
+        url: "https://picsum.photos/500/500?random=17",
+        altText: "Fleece Zip-Up Jacket 1",
+      },
+      {
+        url: "https://picsum.photos/500/500?random=18",
+        altText: "Fleece Zip-Up Jacket 2",
+      },
+    ],
+  },
+  {
+    _id: 10,
+    name: "Trench Coat",
+    price: 220,
+    originalPrice: 260,
+    description: "A stylish and elegant trench coat for formal occasions.",
+    brand: "LuxuryWear",
+    material: "Cotton Blend",
+    sizes: ["M", "L", "XL"],
+    colors: ["Camel", "Black"],
+    images: [
+      {
+        url: "https://picsum.photos/500/500?random=19",
+        altText: "Trench Coat 1",
+      },
+      {
+        url: "https://picsum.photos/500/500?random=20",
+        altText: "Trench Coat 2",
+      },
+    ],
+  },
 ];
+
+
+
 const ProductDetail = () => {
-  const [mainImage, setMainImage] = useState("");
+  const [mainImage, setMainImage] = useState(null);
   const [selectedSize, setSelectedSize] = useState("");
   const [selectedColor, setSelectedColor] = useState("");
   const [quantity, setQuantity] = useState(1);

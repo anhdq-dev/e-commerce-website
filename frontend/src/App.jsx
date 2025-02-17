@@ -1,8 +1,10 @@
+// Import react router dom
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import "./App.css";
-import UserLayout from "./components/Layout/UserLayout";
-import Home from "./pages/Home";
+// Import sonner
 import { Toaster } from "sonner";
+//
+import Home from "./pages/Home";
+import UserLayout from "./components/Layout/UserLayout";
 
 function App() {
   return (
