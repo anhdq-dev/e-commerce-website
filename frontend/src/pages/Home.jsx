@@ -1,4 +1,6 @@
 import Hero from "../components/Layout/Hero";
+import FeaturedCollection from "../components/Product/FeaturedCollection";
+import FeaturesSection from "../components/Product/FeaturesSection";
 import GenderCollectionSection from "../components/Product/GenderCollectionSection";
 import ProductDetail from "../components/Product/ProductDetail";
 import ProductGrid from "../components/Product/ProductGrid";
@@ -58,12 +60,15 @@ const Home = () => {
       {/* Best Seller */}
       <h2 className="text-3xl text-center font-bold mb-4">Best Seller</h2>
       <ProductDetail />
+      {/* Place holder */}
       <div className="container mx-auto mb-5">
         <h2 className="text-3xl text-center font-bold mb-4 capitalize">
           Top wear for women
         </h2>
         <ProductGrid products={placeHolderProducts} />
       </div>
+      <FeaturedCollection />
+      <FeaturesSection />
     </div>
   );
 };
