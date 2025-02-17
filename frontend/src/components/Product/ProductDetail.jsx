@@ -1,4 +1,6 @@
 import { useEffect, useState } from "react";
+import { toast } from "sonner";
+import ProductGrid from "./ProductGrid";
 
 const selectedProduct = {
   name: "Stylish Jacket",
@@ -20,18 +22,167 @@ const selectedProduct = {
     },
   ],
 };
-
+const similarProducts = [
+  {
+    name: "Casual Jacket",
+    price: 100,
+    originalPrice: 130,
+    description: "A casual and stylish jacket for everyday wear.",
+    brand: "UrbanStyle",
+    material: "Cotton",
+    sizes: ["S", "M", "L", "XL"],
+    colors: ["Blue", "Gray"],
+    images: [
+      {
+        url: "https://picsum.photos/500/500?random=3",
+        altText: "Casual Jacket 1",
+      },
+      {
+        url: "https://picsum.photos/500/500?random=4",
+        altText: "Casual Jacket 2",
+      },
+    ],
+  },
+  {
+    name: "Premium Leather Jacket",
+    price: 180,
+    originalPrice: 220,
+    description: "High-quality leather jacket with a modern fit.",
+    brand: "EliteWear",
+    material: "Genuine Leather",
+    sizes: ["M", "L", "XL"],
+    colors: ["Black", "Brown"],
+    images: [
+      {
+        url: "https://picsum.photos/500/500?random=5",
+        altText: "Premium Leather Jacket 1",
+      },
+      {
+        url: "https://picsum.photos/500/500?random=6",
+        altText: "Premium Leather Jacket 2",
+      },
+    ],
+  },
+  {
+    name: "Winter Puffer Jacket",
+    price: 130,
+    originalPrice: 160,
+    description: "Warm and cozy puffer jacket for winter season.",
+    brand: "ColdWear",
+    material: "Polyester",
+    sizes: ["S", "M", "L"],
+    colors: ["Navy", "White"],
+    images: [
+      {
+        url: "https://picsum.photos/500/500?random=7",
+        altText: "Winter Puffer Jacket 1",
+      },
+      {
+        url: "https://picsum.photos/500/500?random=8",
+        altText: "Winter Puffer Jacket 2",
+      },
+    ],
+  },
+  {
+    name: "Slim Fit Denim Jacket",
+    price: 90,
+    originalPrice: 120,
+    description: "A trendy slim-fit denim jacket for a modern look.",
+    brand: "DenimCo",
+    material: "Denim",
+    sizes: ["M", "L", "XL"],
+    colors: ["Blue", "Black"],
+    images: [
+      {
+        url: "https://picsum.photos/500/500?random=9",
+        altText: "Slim Fit Denim Jacket 1",
+      },
+      {
+        url: "https://picsum.photos/500/500?random=10",
+        altText: "Slim Fit Denim Jacket 2",
+      },
+    ],
+  },
+  {
+    name: "Classic Bomber Jacket",
+    price: 110,
+    originalPrice: 140,
+    description: "A stylish bomber jacket for any casual occasion.",
+    brand: "AirStyle",
+    material: "Nylon",
+    sizes: ["S", "M", "L", "XL"],
+    colors: ["Olive", "Black"],
+    images: [
+      {
+        url: "https://picsum.photos/500/500?random=11",
+        altText: "Classic Bomber Jacket 1",
+      },
+      {
+        url: "https://picsum.photos/500/500?random=12",
+        altText: "Classic Bomber Jacket 2",
+      },
+    ],
+  },
+  {
+    name: "Vintage Leather Jacket",
+    price: 160,
+    originalPrice: 200,
+    description: "A vintage-style leather jacket with timeless appeal.",
+    brand: "RetroWear",
+    material: "Genuine Leather",
+    sizes: ["M", "L", "XL"],
+    colors: ["Brown", "Black"],
+    images: [
+      {
+        url: "https://picsum.photos/500/500?random=13",
+        altText: "Vintage Leather Jacket 1",
+      },
+      {
+        url: "https://picsum.photos/500/500?random=14",
+        altText: "Vintage Leather Jacket 2",
+      },
+    ],
+  },
+];
 const ProductDetail = () => {
   const [mainImage, setMainImage] = useState("");
   const [selectedSize, setSelectedSize] = useState("");
   const [selectedColor, setSelectedColor] = useState("");
-  const [selectedQuantity, setSelectedQuantity] = useState(1);
-  const [isButtonDisable, setIsButtonDisable] = useState(true);
+  const [quantity, setQuantity] = useState(1);
+  const [isButtonDisable, setIsButtonDisable] = useState(false);
+
+  //handle quantity
+  const handleQuantityChange = (operator) => {
+    if (operator == "minus") {
+      quantity > 1 ? setQuantity((pre) => pre - 1) : 1;
+    } else {
+      setQuantity((pre) => pre + 1);
+    }
+  };
+  //
+  const handleAddToCart = () => {
+    if (!selectedColor || !selectedSize) {
+      toast.error("Please select a size and color before adding to cart!", {
+        duration: 1000,
+      });
+      return;
+    }
+
+    setIsButtonDisable(true);
+    setTimeout(() => {
+      toast.success("Product added to cart!", {
+        duration: 1000,
+      });
+      setIsButtonDisable(false);
+    }, 500);
+  };
+  //
   useEffect(() => {
     if (selectedProduct?.images?.length > 0) {
       setMainImage(selectedProduct.images[0].url);
     }
-  }, [selectedProduct]);
+  }, []);
+
   return (
     <div className="p-6">
       <div className="max-w-6xl mx-auto bg-white p-8 rounded-lg">
@@ -86,6 +237,8 @@ const ProductDetail = () => {
               $ {selectedProduct.price}
             </p>
             <p className="text-gray-600 mb-4">{selectedProduct.description}</p>
+
+            {/* Color */}
             <div className="mb-4">
               <p className="text-gray-700">Color:</p>
               <div className="flex gap-2 mt-2">
@@ -106,13 +259,17 @@ const ProductDetail = () => {
                 ))}
               </div>
             </div>
+            {/* Size */}
             <div className="mb-4">
               <p className="text-gray-700">Size:</p>
               <div className="flex gap-2 mt-2">
                 {selectedProduct.sizes.map((size) => (
                   <button
                     key={size}
-                    className="px-4 py-2 rounded border w-15 items-center"
+                    onClick={() => setSelectedSize(size)}
+                    className={`px-4 py-2 rounded border w-15 ${
+                      selectedSize === size ? "bg-black text-white" : ""
+                    }`}
                   >
                     {size}
                   </button>
@@ -122,18 +279,32 @@ const ProductDetail = () => {
             <div className="mb-6">
               <p className="text-gray-700">Quantity:</p>
               <div className="flex items-center space-x-4 mt-2">
-                <button className="px-2 py-1 w-10 bg-gray-200 rounded text-lg">
+                <button
+                  className="px-2 py-1 w-10 bg-gray-200 rounded text-lg"
+                  onClick={() => handleQuantityChange("minus")}
+                >
                   -
                 </button>
-                <span className="text-lg">1</span>
-                <button className="px-2 py-1 w-10 bg-gray-200 rounded text-lg">
+                <span className="text-lg w-5 text-center">{quantity}</span>
+                <button
+                  className="px-2 py-1 w-10 bg-gray-200 rounded text-lg"
+                  onClick={() => handleQuantityChange("plus")}
+                >
                   +
                 </button>
               </div>
             </div>
             {/* Add to cart */}
-            <button className="bg-black text-white py-2 px-6 rounded w-full mb-4 uppercase">
-              Add to cart
+            <button
+              onClick={handleAddToCart}
+              disabled={isButtonDisable}
+              className={`bg-black text-white py-2 px-6 rounded w-full mb-4 uppercase ${
+                isButtonDisable
+                  ? "cursor-not-allowed opacity-50"
+                  : "hover:bg-gray-900"
+              }`}
+            >
+              {isButtonDisable ? "Adding..." : "Add to cart"}
             </button>
             <div className="mt-10 text-gray-700">
               <h3 className="text-xl font-bold mb-4">Characteristics:</h3>
@@ -151,6 +322,12 @@ const ProductDetail = () => {
               </table>
             </div>
           </div>
+        </div>
+        <div className="mt-20">
+          <h2 className="text-2xl text-center font-medium mb-4 capitalize">
+            You May also like
+          </h2>
+          <ProductGrid products={similarProducts} />
         </div>
       </div>
     </div>
