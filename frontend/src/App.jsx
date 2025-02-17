@@ -10,7 +10,6 @@ function App() {
         <Route path="/" element={<UserLayout />}>
           <Route index element={<Home />} />
         </Route>
-        
         <Route>{/* Admin layout */}</Route>
         <Route></Route>
       </Routes>
