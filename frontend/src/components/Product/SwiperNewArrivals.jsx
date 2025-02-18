@@ -127,15 +127,15 @@ const SwiperNewArrivals = () => {
   ];
   return (
     <div className="">
-      <section className=" py-16 lg:px-0">
+      <section className="py-16 lg:px-0">
         <div className="container mx-auto text-center mb-10 relative">
           <h2 className="text-3xl font-bold mb-4">Explore New Arrivals</h2>
-          <p className="text-lg text-gray-600 mb-8">
+          <p className="text-lg text-gray-600 mb-15">
             Discover the latest styles straight off the runway, freshly added to
             keep your wardrobe on the cutting edge of fashion.
           </p>
           {/* Scroll Buttons */}
-          <div className="absolute right-0 bottom-[-30px] flex space-x-2">
+          <div className="absolute right-0 bottom-[-45px] flex space-x-2">
             <button className="p-2 rounded border custom-prev bg-white text-black cursor-pointer">
               <FiChevronLeft className="text-2xl" />
             </button>
@@ -175,12 +175,12 @@ const SwiperNewArrivals = () => {
                   <img
                     src={product.images[0]?.url}
                     alt={product.images[0]?.altText || product.name}
-                    className="w-full h-[400px] object-cover rounded-lg"
+                    className="w-full object-cover rounded-lg"
                     loading="lazy"
                   />
                   <div className="swiper-lazy-preloader"></div>
                   <div className="absolute bottom-0 left-0 right-0 backdrop-blur-md text-white p-4 rounded-b-lg">
-                    <Link className="block" to={`/product/${product._id}`}>
+                    <Link className="block hover:underline" to={`/product/${product._id}`}>
                       <h4 className="font-medium">{product.name}</h4>
                       <p className="mt-1">${product.price}</p>
                     </Link>
