@@ -4,6 +4,7 @@ import "dotenv/config";
 
 import {connectDatabase} from "./configs/database.js";
 import userRoutes from "./routes/userRoutes.js";
+import productRoutes from "./routes/productRoutes.js";
 
 
 const app = express();
@@ -12,8 +13,13 @@ app.use(cors());
 
 const PORT = process.env.PORT || 9000;
 
-// API
+
+/*==============    API    ================== */
+// User API
 app.use("/api/v1/users", userRoutes);
+
+// Product API
+app.use("/api/v1/products", productRoutes);
 
 connectDatabase().then(() => {
     app.listen(PORT, () => {

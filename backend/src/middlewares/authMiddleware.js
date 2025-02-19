@@ -9,16 +9,25 @@ export const protect = async (req, res, next) => {
             token = req.headers.authorization.split(" ")[1];
             const decoded = jwt.verify(token, process.env.JWT_SECRET);
             req.user = await UserModel.findById(decoded.user.id).select("-password");
-            next();
+            return next();
         } catch (error) {
             console.log("Token verification failed:", error);
-            res.status(401).json({
+            return res.status(401).json({
                 message: "Not authorized, token failed!"
             });
         }
     } else {
-        res.status(401).json({
+        return res.status(401).json({
             message: "Not authorized, No token provided"
         });
+    }
+};
+
+//  Middle to check if the user is an admin
+export const isAdmin = async (req, res, next) => {
+    if (req.user && req.user.role === "admin") {
+        return next();
+    } else {
+        return res.status(403).json({message: "Permission denied"});
     }
 };
