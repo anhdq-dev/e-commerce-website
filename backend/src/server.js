@@ -1,7 +1,9 @@
 import express from "express";
 import cors from "cors";
 import "dotenv/config";
-import {connectDatabase} from "./config/database.js";
+
+import {connectDatabase} from "./configs/database.js";
+import userRoutes from "./routes/userRoutes.js";
 
 
 const app = express();
@@ -10,13 +12,14 @@ app.use(cors());
 
 const PORT = process.env.PORT || 9000;
 
+// API
+app.use("/api/v1/users", userRoutes);
 
-app.get("/", (req, res) => {
-    res.send("Welcome to rabbit app");
+connectDatabase().then(() => {
+    app.listen(PORT, () => {
+        console.log(`Server is running on  http://localhost:${PORT}`);
+    });
+}).catch(() => {
+    console.log("Cannot access database");
 });
 
-connectDatabase();
-
-app.listen(PORT, () => {
-    console.log(`Server is running on  http://localhost:${PORT}`);
-});
