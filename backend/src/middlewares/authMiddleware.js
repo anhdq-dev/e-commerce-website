@@ -1,5 +1,7 @@
 import jwt from "jsonwebtoken";
 import UserModel from "../models/User.model.js";
+import {responseHandler} from "../response/apiResponse.js";
+import {HTTP_STATUS} from "../utils/httpStatus.js";
 
 // Middle to protect routes
 export const protect = async (req, res, next) => {
@@ -11,15 +13,10 @@ export const protect = async (req, res, next) => {
             req.user = await UserModel.findById(decoded.user.id).select("-password");
             return next();
         } catch (error) {
-            console.log("Token verification failed:", error);
-            return res.status(401).json({
-                message: "Not authorized, token failed!"
-            });
+            return responseHandler(res, HTTP_STATUS.UNAUTHORIZED, "Authorization", false, "Not authorized, token failed!", null, error.message);
         }
     } else {
-        return res.status(401).json({
-            message: "Not authorized, No token provided"
-        });
+        return responseHandler(res, HTTP_STATUS.UNAUTHORIZED, "Authorization", false, "Not authorized, No token provided");
     }
 };
 
@@ -28,6 +25,6 @@ export const isAdmin = async (req, res, next) => {
     if (req.user && req.user.role === "admin") {
         return next();
     } else {
-        return res.status(403).json({message: "Permission denied"});
+        return responseHandler(res, HTTP_STATUS.FORBIDDEN, "Check role admin", false, "Permission denied");
     }
 };

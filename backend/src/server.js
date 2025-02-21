@@ -3,8 +3,9 @@ import cors from "cors";
 import "dotenv/config";
 
 import {connectDatabase} from "./configs/database.js";
-import userRoutes from "./routes/userRoutes.js";
+import authRoutes from "./routes/authRoutes.js";
 import productRoutes from "./routes/productRoutes.js";
+import userRoutes from "./routes/userRoutes.js";
 
 
 const app = express();
@@ -15,11 +16,14 @@ const PORT = process.env.PORT || 9000;
 
 
 /*==============    API    ================== */
-// User API
-app.use("/api/v1/users", userRoutes);
+// Authentication API
+app.use("/api/v1/auth", authRoutes);
 
 // Product API
 app.use("/api/v1/products", productRoutes);
+
+// User API
+app.use("/api/v1/users", userRoutes);
 
 connectDatabase().then(() => {
     app.listen(PORT, () => {

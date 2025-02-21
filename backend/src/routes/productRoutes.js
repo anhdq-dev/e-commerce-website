@@ -1,5 +1,5 @@
 import express from "express";
-import {addProduct} from "../controllers/productController.js";
+import {addProduct, getAllProducts} from "../controllers/productController.js";
 import {isAdmin, protect} from "../middlewares/authMiddleware.js";
 
 const productRoutes = express.Router();
@@ -13,5 +13,9 @@ productRoutes.post("/product", protect, isAdmin, addProduct);
 // @desc Update an existing product
 // @access Private/admin
 productRoutes.put("/product", protect, isAdmin, addProduct);
+
+productRoutes.get("/", getAllProducts);
+
+
 
 export default productRoutes;
