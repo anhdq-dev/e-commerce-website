@@ -1,4 +1,4 @@
-import ProductModel from "../model/Product.model.js";
+import Product from "../model/Product.js";
 import {responseHandler} from "../response/apiResponse.js";
 
 export const addProduct = async (req, res) => {
@@ -12,7 +12,7 @@ export const addProduct = async (req, res) => {
 
         const productData = {...req.body, user: req.user._id};
 
-        const newProduct = await ProductModel.create(productData);
+        const newProduct = await Product.create(productData);
 
         return responseHandler(
             res,
@@ -32,7 +32,7 @@ export const updateProduct = async (req, res) => {
         const id = req.params.id;
         const updateFields = req.body;
 
-        const updatedProduct = await ProductModel.findByIdAndUpdate(id, updateFields, {new: true});
+        const updatedProduct = await Product.findByIdAndUpdate(id, updateFields, {new: true});
 
         if (!updatedProduct) {
             return responseHandler(res, 404, "Update Product", false, "Product not found");
@@ -47,7 +47,7 @@ export const updateProduct = async (req, res) => {
 export const deleteProduct = async (req, res) => {
     const id = req.params.id;
     try {
-        const product = await ProductModel.findByIdAndDelete(id);
+        const product = await Product.findByIdAndDelete(id);
         if (!product) {
             return responseHandler(
                 res,
@@ -136,8 +136,8 @@ export const getAllProducts = async (req, res) => {
                     break;
             }
         }
-        let totalProducts = await ProductModel.countDocuments(query);
-        let products = await ProductModel
+        let totalProducts = await Product.countDocuments(query);
+        let products = await Product
             .find(query)
             .sort(sort)
             .limit(Number(limit) || 0);
@@ -162,7 +162,7 @@ export const getAllProducts = async (req, res) => {
 
 export const getProductById = async (req, res) => {
     try {
-        const product = await ProductModel.findById(req.params.id);
+        const product = await Product.findById(req.params.id);
         if (product) {
             return responseHandler(res, 200, "Get Product", true, "Get Product successfully", product);
         } else {
@@ -176,11 +176,11 @@ export const getProductById = async (req, res) => {
 
 export const getSimilarProducts = async (req, res) => {
     try {
-        const product = await ProductModel.findById(req.params.id);
+        const product = await Product.findById(req.params.id);
         if (!product) {
             return responseHandler(res, 404, "Get Similar Products", false, "Product not found");
         }
-        const similarProducts = await ProductModel.find({
+        const similarProducts = await Product.find({
             category: product.category,
             gender: product.gender,
             _id: {$ne: product._id}
@@ -191,4 +191,20 @@ export const getSimilarProducts = async (req, res) => {
     }
 };
 
-//https://youtu.be/hpgh2BTtac8?si=-IuSXGj6ssSBDzBw&t=33119
+export const getBestSellerProduct = async (req, res) => {
+    try {
+        const bestSellerProducts = await Product.find().sort({rating: -1}).limit(8);
+        return responseHandler(res, 200, "Get Best Seller Products", true, "Get Best Seller Products successfully", bestSellerProducts);
+    } catch (e) {
+        return responseHandler(res, 500, "Get Best Seller Products", false, e.message);
+    }
+};
+
+export const getNewArrivalProducts = async (req, res) => {
+    try {
+        const newArrivalProducts = await Product.find().sort({createdAt: -1}).limit(8);
+        return responseHandler(res, 200, "Get New Arrival Products", true, "Get New Arrival Products successfully", newArrivalProducts);
+    } catch (e) {
+        return responseHandler(res, 500, "Get New Arrival Products", false, e.message);
+    }
+};

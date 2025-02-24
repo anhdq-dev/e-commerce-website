@@ -1,4 +1,4 @@
-import UserModel from "../model/User.model.js";
+import User from "../model/User.js";
 import {responseHandler} from "../response/apiResponse.js";
 import jwt from "jsonwebtoken";
 import {HTTP_STATUS} from "../utils/httpStatus.js";
@@ -7,7 +7,7 @@ export const register = async (req, res) => {
     const {name, email, password} = req.body;
     try {
         // registration logic
-        let user = await UserModel.findOne({email});
+        let user = await User.findOne({email});
         if (user) {
             return responseHandler(
                 res,
@@ -17,7 +17,7 @@ export const register = async (req, res) => {
                 "User already existed!"
             );
         }
-        user = new UserModel({name, email, password});
+        user = new User({name, email, password});
         await user.save();
         // Create JWT Payload
         const payload = {user: {id: user._id, role: user.role}};
@@ -59,7 +59,7 @@ export const register = async (req, res) => {
 
 export const login = async (req, res) => {
     const {email, password} = req.body;
-    let user = await UserModel.findOne({email});
+    let user = await User.findOne({email});
     if (!user) {
         return responseHandler(
             res,

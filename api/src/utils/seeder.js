@@ -1,5 +1,6 @@
-import Product from "../model/Product.model.js";
-import User from "../model/User.model.js";
+import Product from "../model/Product.js";
+import User from "../model/User.js";
+import Cart from "../model/Cart.model.js";
 
 import products from "./dataSample.js";
 import mongoose from "mongoose";
@@ -12,6 +13,7 @@ const seeder = async () => {
     try {
         await User.deleteMany();
         await Product.deleteMany();
+        await Cart.deleteMany();
 
         const createdUsers = await User.create({
             name: "Admin",

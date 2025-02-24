@@ -3,6 +3,8 @@ import {
     addProduct,
     deleteProduct,
     getAllProducts,
+    getBestSellerProduct,
+    getNewArrivalProducts,
     getProductById,
     getSimilarProducts,
     updateProduct
@@ -16,8 +18,10 @@ productRoutes.post("/product", protect, isAdmin, addProduct);
 productRoutes.put("/product/:id", protect, isAdmin, updateProduct);
 productRoutes.delete("/product/:id", protect, isAdmin, deleteProduct);
 productRoutes.get("/", getAllProducts);
-productRoutes.get("/:id", getProductById);
+productRoutes.get("/product/:id", getProductById);
 productRoutes.get("/similar/:id", getSimilarProducts);
+productRoutes.get("/best-seller", getBestSellerProduct);
+productRoutes.get("/new-arrivals", getNewArrivalProducts);
 
 
 export default productRoutes;
