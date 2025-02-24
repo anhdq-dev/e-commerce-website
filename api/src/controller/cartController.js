@@ -95,3 +95,113 @@ export const createCart = async (req, res) => {
         );
     }
 };
+
+export const updateCart = async (req, res) => {
+    const {productId, quantity, size, color, guestId, userId} = req.body;
+
+    try {
+        let cart = await getCart(userId, guestId);
+        if (!cart) {
+            return responseHandler(
+                res,
+                HTTP_STATUS.NOT_FOUND,
+                "Update cart",
+                false,
+                "Cart not found"
+            );
+        }
+        const productIndex = cart.products.findIndex(
+            (p) =>
+                p.productId.toString() === productId
+                && p.size === size
+                && p.color === color
+        );
+
+        if (productIndex === -1) {
+            // updateQuantity
+            if (quantity > 0) {
+                cart.products[productIndex].quantity = quantity;
+            } else {
+                cart.products.splice(productIndex, 1);
+            }
+            cart.totalPrice = cart.products.reduce(
+                (accumulator, item) => accumulator + item.price * item.quantity, 0);
+            await cart.save();
+            return responseHandler(
+                res,
+                HTTP_STATUS.OK,
+                "Update cart",
+                true,
+                "Cart updated successfully",
+                cart
+            );
+        } else {
+            return responseHandler(
+                res,
+                HTTP_STATUS.NOT_FOUND,
+                "Update cart",
+                false,
+                "Product not found in cart"
+            );
+        }
+    } catch (e) {
+        return responseHandler(
+            res,
+            HTTP_STATUS.INTERNAL_SERVER_ERROR,
+            "Update cart",
+            false,
+            e.message
+        );
+    }
+
+};
+
+export const deleteCart = async (req, res) => {
+    const {productId, size, color, guestId, userId} = req.body;
+
+    let cart = await getCart(userId, guestId);
+    if (!cart) {
+        return responseHandler(
+            res,
+            HTTP_STATUS.NOT_FOUND,
+            "Delete cart",
+            false,
+            "Cart not found"
+        );
+    }
+    const productIndex = cart.products.findIndex(
+        (p) =>
+            p.productId.toString() === productId
+            && p.size === size
+            && p.color === color
+    );
+    if (productIndex > -1) {
+
+        cart.products.splice(productIndex, 1);
+
+        cart.totalPrice = cart.products.reduce(
+            (accumulator, item) => accumulator + item.price * item.quantity, 0);
+        await cart.save();
+        return responseHandler(
+            res,
+            HTTP_STATUS.OK,
+            "Delete cart",
+            true,
+            "Cart updated successfully",
+            cart
+        );
+    } else {
+        return responseHandler(
+            res,
+            HTTP_STATUS.NOT_FOUND,
+            "Delete cart",
+            false,
+            "Product not found in cart"
+        );
+    }
+
+};
+
+export const getCartByCustomerId = async (req, res) => {
+    const {userId, guestId} = req.body;
+};
