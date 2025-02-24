@@ -24,11 +24,11 @@ const cartSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "User"
     },
-    guest: {
+    guestId: {
         type: String
     },
     products: [cartItemSchema],
-    totalPrices: {
+    totalPrice: {
         type: Number,
         required: true,
         default: 0
