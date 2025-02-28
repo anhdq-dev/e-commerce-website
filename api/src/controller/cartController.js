@@ -203,5 +203,25 @@ export const deleteCart = async (req, res) => {
 };
 
 export const getCartByCustomerId = async (req, res) => {
-    const {userId, guestId} = req.body;
+    const {userId, guestId} = req.query;
+
+    const cart = await getCart(userId, guestId);
+    if (cart) {
+        return responseHandler(
+            res,
+            HTTP_STATUS.OK,
+            "Get cart",
+            true,
+            "Get cart by customer id",
+            cart
+        );
+    } else {
+        responseHandler(
+            res,
+            HTTP_STATUS.NOT_FOUND,
+            "Get cart",
+            false,
+            "Cart not found"
+        );
+    }
 };
