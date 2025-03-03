@@ -1,10 +1,10 @@
-import UserModel from "../model/User.model.js";
+import User from "../model/User.js";
 import {responseHandler} from "../response/apiResponse.js";
 import {HTTP_STATUS} from "../utils/httpStatus.js";
 
 export const getProfile = async (req, res) => {
     try {
-        const user = await UserModel.findById(req.user.id).select("-password");
+        const user = await User.findById(req.user.id).select("-password");
         if (!user) {
             return responseHandler(
                 res,

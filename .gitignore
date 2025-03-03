@@ -1,5 +1,6 @@
 .idea
-backend/node_modules
-backend/.env
+
+api/node_modules
+api/.env
 
 frontend/node_modules
